@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Transformer-based Deepfake Detection Architecture">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Input -->
+        <mxCell id="2" value="Input Video"
+          style="rounded=1;fillColor=#E5E7EB;strokeColor=#6B7280;fontSize=14;fontStyle=1"
+          vertex="1" parent="1">
+          <mxGeometry x="420" y="40" width="260" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Face Tracking -->
+        <mxCell id="3" value="Face Detection &amp; Tracking&#xa;(Detect once → Track across frames)"
+          style="rounded=1;fillColor=#E5E7EB;strokeColor=#6B7280;fontSize=13"
+          vertex="1" parent="1">
+          <mxGeometry x="390" y="120" width="320" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Frame Sampling -->
+        <mxCell id="4" value="Frame Sampling&#xa;Select N = 8 face frames"
+          style="rounded=1;fillColor=#E5E7EB;strokeColor=#6B7280;fontSize=13"
+          vertex="1" parent="1">
+          <mxGeometry x="400" y="210" width="300" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- ViT -->
+        <mxCell id="5" value="Vision Transformer (ViT-Tiny)&#xa;Patch16 × 16&#xa;Shared across all frames"
+          style="rounded=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=14;fontStyle=1"
+          vertex="1" parent="1">
+          <mxGeometry x="360" y="310" width="380" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Frame Embeddings -->
+        <mxCell id="6" value="Frame-level Embeddings&#xa;f₁, f₂, …, f₈&#xa;Dimension = 192"
+          style="rounded=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13"
+          vertex="1" parent="1">
+          <mxGeometry x="380" y="430" width="340" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Temporal Transformer -->
+        <mxCell id="7" value="Temporal Transformer Encoder&#xa;2 Layers · 3 Heads&#xa;Models temporal inconsistencies"
+          style="rounded=1;fillColor=#E9D5FF;strokeColor=#7C3AED;fontSize=14;fontStyle=1"
+          vertex="1" parent="1">
+          <mxGeometry x="330" y="540" width="440" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- Pooling -->
+        <mxCell id="8" value="Temporal Pooling&#xa;(Mean over time)"
+          style="rounded=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13"
+          vertex="1" parent="1">
+          <mxGeometry x="410" y="670" width="280" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Classifier -->
+        <mxCell id="9" value="MLP Classifier&#xa;Linear → GELU → Dropout → Linear"
+          style="rounded=1;fillColor=#FFEDD5;strokeColor=#EA580C;fontSize=13"
+          vertex="1" parent="1">
+          <mxGeometry x="400" y="760" width="300" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Output -->
+        <mxCell id="10" value="Output&#xa;Real / Fake"
+          style="rounded=1;fillColor=#FFFFFF;strokeColor=#111827;fontSize=14;fontStyle=1"
+          vertex="1" parent="1">
+          <mxGeometry x="420" y="860" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="11" style="endArrow=block;strokeWidth=2" edge="1" parent="1" source="2" target="3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="12" style="endArrow=block;strokeWidth=2" edge="1" parent="1" source="3" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="13" style="endArrow=block;strokeWidth=2" edge="1" parent="1" source="4" target="5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="14" style="endArrow=block;strokeWidth=2" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="15" style="endArrow=block;strokeWidth=2" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="16" style="endArrow=block;strokeWidth=2" edge="1" parent="1" source="7" target="8">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="17" style="endArrow=block;strokeWidth=2" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="18" style="endArrow=block;strokeWidth=2" edge="1" parent="1" source="9" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
