@@ -27,7 +27,7 @@ class Model(nn.Module):
         x = self.avgpool(fmap)
         x = x.view(batch_size, seq_length, 2048)
         x_lstm, _ = self.lstm(x, None)
-        return fmap, self.dp(self.linear1(x_lstm[:, -1, :]))
+        return fmap, self.dp(self.linear1(torch.mean(x_lstm, dim=1)))
 
 
 class ResNetPredictor:
@@ -87,6 +87,7 @@ class ResNetPredictor:
             frame = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
             
             if frame is not None:
+                # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 # Transform frame
                 frame_tensor = self.transform(frame)
                 frames.append(frame_tensor)
@@ -117,8 +118,8 @@ class ResNetPredictor:
                 frame_prob = probabilities[0].cpu().numpy()  # Same for ALL frames
                 per_frame_results.append({
                     'frame_index': idx,
-                    'fake_probability': float(frame_prob[0]) * 100,  # Same value repeated
-                    'real_probability': float(frame_prob[1]) * 100   # Same value repeated
+                    # 'fake_probability': float(frame_prob[0]) * 100,  # Same value repeated
+                    # 'real_probability': float(frame_prob[1]) * 100   # Same value repeated
                 })
         
         return int(prediction.item()), confidence, per_frame_results

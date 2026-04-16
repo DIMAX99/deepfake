@@ -288,7 +288,7 @@ export default function App() {
                           />
                           <div className="bg-slate-900 p-2 text-center">
                             <span className="text-xs text-gray-400">Frame {index + 1}</span>
-                            {result.per_frame_analysis && result.per_frame_analysis[index] && (
+                            {/* {result.per_frame_analysis && result.per_frame_analysis[index] && (
                               <div className="text-xs mt-1">
                                 <span className={`${
                                   result.per_frame_analysis[index].real_probability > 50 
@@ -302,7 +302,7 @@ export default function App() {
                                   ).toFixed(1)}%
                                 </span>
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
                       ))}
@@ -310,7 +310,7 @@ export default function App() {
                   </div>
                 )}
                 
-                {/* Analysis Details */}
+                {/* Analysis Details
                 <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
                   <h4 className="text-white font-medium mb-2">Analysis Details</h4>
                   <pre className="text-sm text-gray-300 overflow-x-auto">
@@ -319,7 +319,7 @@ export default function App() {
                       analysis_params: result.analysis_params
                     }, null, 2)}
                   </pre>
-                </div>
+                </div> */}
               </div>
             )}
           </div>

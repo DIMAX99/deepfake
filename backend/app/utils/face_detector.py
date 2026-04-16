@@ -15,7 +15,7 @@ class FaceDetector:
         self.model = YOLO(str(model_name))
         print(f"YOLO face detector loaded from {model_name}")
     
-    def extract_faces_from_video(self, video_path: str, num_frames: int = 10, padding: float = 0.2) -> List[str]:
+    def extract_faces_from_video(self, video_path: str, num_frames: int = 10, padding: float = 0.2,cvit:bool=False) -> List[str]:
         """
         Extract faces from video frames
         
@@ -27,7 +27,7 @@ class FaceDetector:
         Returns:
             List of base64 encoded cropped face images
         """
-        padding=0
+        # padding=0
         cap = cv2.VideoCapture(video_path)
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         
@@ -78,7 +78,10 @@ class FaceDetector:
                 
                 # Crop ONLY the face region with padding
                 face_crop = frame[y1_pad:y2_pad, x1_pad:x2_pad]
-                
+                if cvit:
+                    face_crop = cv2.resize(face_crop, (224, 224))
+                else:
+                    face_crop = cv2.resize(face_crop, (112, 112))
                 # Verify the crop is valid
                 if face_crop.size > 0 and face_crop.shape[0] > 0 and face_crop.shape[1] > 0:
                     # Encode cropped face to JPEG

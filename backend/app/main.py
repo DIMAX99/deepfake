@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 from app.utils.face_detector import FaceDetector
 from app.utils.resnet_predictor import ResNetPredictor
-from app.utils.transformer_predictor import TransformerPredictor
+from app.utils.cvit_predictor import CViTPredictor
 
 app = FastAPI(title="Deepfake Detection API")
 
@@ -23,9 +23,9 @@ except Exception as e:
 # Initialize Transformer predictor
 transformer_predictor = None
 try:
-    transformer_predictor = TransformerPredictor()
+    transformer_predictor = CViTPredictor()
 except Exception as e:
-    print(f"Warning: Could not load Transformer model: {e}")
+    print(f"Warning: Could not load CViT model: {e}")
 
 # Create temp directory for uploads
 UPLOAD_DIR = Path("temp_uploads")
@@ -65,7 +65,7 @@ async def analyze_video(
     if 'resnet' in model.lower():
         num_frames = 20
     else:  # transformer models (xception, efficientnet, inception, ensemble)
-        num_frames = 12
+        num_frames = 15
     
     # Save uploaded file temporarily
     temp_file_path = UPLOAD_DIR / file.filename
@@ -77,11 +77,16 @@ async def analyze_video(
         # Get file size
         file_size = os.path.getsize(temp_file_path)
         
+        cvit=True
+        if('resnet' in model.lower()):
+            cvit=False
+
         # Extract faces from video
         face_frames = face_detector.extract_faces_from_video(
             str(temp_file_path),
             num_frames=num_frames,
-            padding=0.2  # 20% padding
+            padding=0,
+            cvit=cvit
         )
         
         # Initialize result
@@ -114,7 +119,7 @@ async def analyze_video(
                 if prediction is not None:
                     prediction_label = transformer_predictor.get_prediction_label(prediction)
                     prediction_result = {
-                        "is_deepfake": prediction == 1,  # 1 = FAKE, 0 = REAL
+                        "is_deepfake": prediction_label == "FAKE",
                         "confidence": round(confidence, 2),
                         "prediction_label": prediction_label,
                         "note": f"Video classified as {prediction_label} with {confidence:.2f}% confidence"
