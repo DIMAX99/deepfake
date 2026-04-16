@@ -47,8 +47,6 @@ class CViTPredictor:
             )
         ])
         
-        self.sm = nn.Softmax(dim=1)
-
     def process_frames(self, face_frames_base64: List[str]) -> Tuple[int, float, List[dict]]:
         
         if len(face_frames_base64) == 0:
@@ -77,7 +75,7 @@ class CViTPredictor:
         
         with torch.no_grad():
             logits = self.model(frames_tensor)
-            probs = self.sm(logits)
+            probs = torch.sigmoid(logits)
             mean_probs = torch.mean(probs, dim=0)
             
             prediction = torch.argmax(mean_probs).item()
@@ -86,4 +84,4 @@ class CViTPredictor:
         return prediction, confidence, per_frame_results
 
     def get_prediction_label(self, prediction: int) -> str:
-        return "REAL" if prediction == 0 else "FAKE"
+        return "FAKE" if prediction == 0 else "REAL"
