@@ -11,9 +11,8 @@ export default function App() {
   const [error, setError] = useState<string>('');
 
   const models = [
-    { id: 'resnet', name: 'ResNet-50' },
-    { id: 'transformer', name: 'Swin Transformer' },
-    { id: 'hybrid', name: 'Ensemble Model' }
+    { id: 'resnet', name: 'ResNet-Lstm' },
+    { id: 'transformer', name: 'CNN_Transformer' },
   ];
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,9 +196,6 @@ export default function App() {
                   </select>
                   <ChevronDown className="w-5 h-5 text-gray-400 absolute right-3 top-2.5 pointer-events-none" />
                 </div>
-                <p className="text-xs text-gray-400 mt-2">
-                  ResNet uses 20 frames • Other models use 12 frames
-                </p>
               </div>
 
             </div>
