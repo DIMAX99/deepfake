@@ -15,7 +15,7 @@ class CViTPredictor:
         
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         if model_path is None:
-            model_path = Path(__file__).parent.parent.parent / "model" / "cvit_all  .pth"
+            model_path = Path(__file__).parent.parent.parent / "model" / "cvit_all.pth"
 
         self.model = CViT(
             image_size=224,
